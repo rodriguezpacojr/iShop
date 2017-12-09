@@ -27,10 +27,6 @@ class ClienteCuponesController extends Controller
         $data['clientecupon'] = $clientecupon;
         return view('clientecupones.index')
             ->with($data);
-
-        /*$clientecupon = ClienteCupon::orderBy('id','ASC')->paginate(5);
-        dd($clientecupon);
-        return view('clientecupones.index')->with('clientecupon',$clientecupon);*/
     }
 
     /**
