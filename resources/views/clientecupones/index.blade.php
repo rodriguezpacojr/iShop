@@ -30,7 +30,7 @@
                         <td><a  href="{{ route('clientecupones.edit',$cc->id) }}" class="btn btn-success" >
                                 <i class="fa fa-pencil fa-lg" ></i>
                             </a>
-                            <a href="{{route('clientecupones.destroy',$cc->id)}}"  onclick="return confirm('¿Seguro que desea eliminar esta Categoria?')" class="btn btn-danger">
+                            <a href="{{route('clientecupones.destroy',$cc->id)}}"  onclick="return confirm('¿Seguro que desea eliminar esta Relacion?')" class="btn btn-danger">
                                 <i class="fa fa-remove fa-lg "></i>
                             </a></td>
                     </tr>

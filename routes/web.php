@@ -15,16 +15,6 @@ Route::get('/', function () {
     return view('principal.index');
 });
 
-//Web Services
-Route::get('admin/categorias/servicio_index', 'CategoriasController@servicio_index');
-Route::get('admin/proveedores/servicio_index', 'ProveedoresController@servicio_index');
-Route::get('admin/clientes/servicio_index', 'ClientesController@servicio_index');
-Route::get('admin/productos/servicio_index', 'ProductosController@servicio_index');
-Route::get('admin/cupones/servicio_index', 'CuponesController@servicio_index');
-
-Route::post('/valcliente', 'ClientesController@val');
-Route::get('/perfil/{id}', 'ClientesController@perfil');
-
 Route::group(['prefix'=>'admin','middleware'=>'auth'],function () {
     Route::resource('clientes','ClientesController');
     Route::resource('categorias','CategoriasController');
@@ -41,6 +31,27 @@ Route::group(['prefix'=>'admin','middleware'=>'auth'],function () {
     Route::get('clientecupones/{id}/destroy', ['uses' => "ClienteCuponesController@destroy", 'as' => 'clientecupones.destroy']);
 });
 
-Auth::routes();
 
+Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::prefix('api')->group(function ()
+{
+    Route::get('/cupon/{id}', 'ClienteCuponesController@show');
+    //Route::post('/valcliente', 'ClientesController@val');
+    Route::get('/perfil/{id}', 'ClientesController@perfil');
+    //Route::post('/users/insert', 'ClientesController@insert');
+    //Route::put('/users/update/{id}', 'ClientesController@update');
+    Route::get('/estado', 'EstadosController@servicio_index');
+    Route::get('/estado/pais/{id}', 'EstadosController@show');
+    Route::get('/ciudad', 'CiudadesController@servicio_index');
+    Route::get('/ciudad/estado/{id}', 'CiudadesController@show');
+    Route::get('/pais', 'PaisesController@servicio_index');
+
+    Route::get('categorias', 'CategoriasController@servicio_index');
+    Route::get('proveedor', 'ProveedoresController@servicio_index');
+    Route::get('cliente', 'ClientesController@servicio_index');
+    Route::get('producto', 'ProductosController@servicio_index');
+    Route::get('cupon', 'CuponesController@servicio_index');
+    Route::get('clientecupon', 'ClienteCuponesController@servicio_index');
+});

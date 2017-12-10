@@ -145,7 +145,7 @@ class ClientesController extends Controller
      */
     public function val(Request $request)
     {
-        //
+        dd('Hola');
         $response = new \stdClass();
         $cliente = DB::table('users')->where('usuario', '=', $request->usuario)->first();
         if(!$cliente)
@@ -156,7 +156,7 @@ class ClientesController extends Controller
         }
         $cliente = DB::table('users')
             ->where('usuario', '=', $request->usuario)
-            ->where('contrasena', '=', $request->contrasena)->first();
+            ->where('password', '=', bcrypt($request->password))->first();
         if(!$cliente)
         {
             $response->success = false;
@@ -179,10 +179,15 @@ class ClientesController extends Controller
     {
         $cliente = DB::table('users')
             ->join('ciudad', 'ciudad.id', '=', 'users.id_ciudad')
+            ->join('estado', 'estado.id', '=', 'ciudad.id_estado')
             ->select('users.usuario','users.nombres','users.apellidos',
-                'users.correo','users.direccion','users.telefono',
-                'ciudad.nombre as ciudad')
-            ->where('cliente.id', '=', $id)->first();
-        return JsonResponse::create($cliente);
+                'users.email','users.compania','users.rfc',
+                'users.direccion','users.telefono','users.cp',
+                'ciudad.nombre as ciudad','ciudad.id',
+                'estado.nombre as estado','estado.id')
+            ->where('users.id', '=', $id)->first();
+        $data = array();
+        $data['perfil'] = $cliente;
+        return JsonResponse::create($data);
     }
 }

@@ -2,7 +2,7 @@
 
 @section('content')
     <br>
-    {!! Form::open(array('route' => ['productos.update',$producto->id], 'method' => 'PUT')) !!}﻿
+    {!! Form::open(array('route' => ['productos.update',$producto->id], 'method' => 'PUT', 'files' => true)) !!}﻿
 
     <div class="panel panel-primary">
         <div class="panel-heading">Editar Producto: {{$producto->nombre}}</div>
@@ -31,6 +31,14 @@
                     {!! Form::text('stock',$producto->stock,['class' => 'form-control']) !!}
                 </div>
             </div>
+
+            <div class="form-group row">
+                <div class="col-xs-5">
+                    {!! Form::label('imagen','Imagen') !!}
+                    {!! Form::file('imagen') !!}
+                </div>
+            </div>
+
             <div class="form-group row">
                 <div class="col-xs-5">
                     {!! Form::label('id_categoria','Categorias') !!}

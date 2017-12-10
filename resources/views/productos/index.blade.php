@@ -36,7 +36,7 @@
                         <td><a  href="{{ route('productos.edit',$pr->id) }}" class="btn btn-success" >
                                 <i class="fa fa-pencil fa-lg" ></i>
                             </a>
-                            <a href="{{route('productos.destroy',$pr->id)}}"  onclick="return confirm('¿Seguro que desea eliminar esta Categoria?')" class="btn btn-danger">
+                            <a href="{{route('productos.destroy',$pr->id)}}"  onclick="return confirm('¿Seguro que desea eliminar este Producto?')" class="btn btn-danger">
                                 <i class="fa fa-remove fa-lg "></i>
                             </a></td>
                     </tr>

@@ -2,48 +2,38 @@
 
 @section('content')
 <br>
-    {!! Form::open(['route' => 'productos.store','method' => 'POST']) !!}
+    {!! Form::open(['route' => 'clientecupones.store','method' => 'POST']) !!}
         <div class="panel panel-primary">
-            <div class="panel-heading">Crear Producto</div>
+            <div class="panel-heading">Crear Relacion</div>
             <div class="panel-body">
                 <div class="form-group row">
                     <div class="col-xs-5">
-                        {!! Form::label('nombre','Nombre:') !!}
-                        {!! Form::text('nombre',null,['class' => 'form-control']) !!}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-xs-5">
-                        {!! Form::label('descripcion','Descripcion:') !!}
-                        {!! Form::text('descripcion',null,['class' => 'form-control']) !!}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-xs-5">
-                        {!! Form::label('precio_venta','Precio Venta:') !!}
-                        {!! Form::text('precio_venta',null,['class' => 'form-control']) !!}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-xs-5">
-                        {!! Form::label('stock','Stock:') !!}
-                        {!! Form::text('stock',null,['class' => 'form-control']) !!}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-xs-5">
-                        {!! Form::label('id_categoria','Categorias') !!}
-                        <select class="form-control" name="id_categoria">
-                            @foreach($categorias as $ca)
-                                <option value="{{$ca->id}}">{{$ca->nombre}}</option>
+                        {!! Form::label('id_cliente','Usuario') !!}
+                        <select class="form-control" name="id_cliente">
+                            <option>--Selecciona un cliente--</option>
+                            @foreach($clientes as $cliente)
+                                <option value="{{$cliente->id}}">{{$cliente->usuario}}</option>
                             @endforeach
                         </select>
-
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="offset-sm-2 col-xs-5">
-                        {{ Form::button('<i class="fa fa-paper-plane" aria-hidden="true"></i> Enviar', ['type' => 'submit', 'class' => 'btn btn-primary'] )  }}
+                    <div class="col-xs-5">
+                        {!! Form::label('id_cupon','Clave') !!}
+                        <select class="form-control" name="id_cupon">
+                            <option>--Selecciona un cupon--</option>
+                            @foreach($cupones as $cupon)
+                                <option value="{{$cupon->id}}">{{$cupon->clave}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="offset-sm-1 col-xs-5">
+                        {{ Form::button('<i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                            Enviar',
+                                            ['type' => 'submit', 'class' => 'btn btn-primary'] )  }}
                     </div>
                 </div>
             </div>

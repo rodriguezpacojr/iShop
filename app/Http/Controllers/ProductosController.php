@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Categoria;
-use App\Producto;
+use Intervention\Image\Facades\Image;
+use Intervention\Image\Facades;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Caffeinated\Flash\Facades\Flash;
+use App\Categoria;
+use App\Producto;
 
 class ProductosController extends Controller
 {
@@ -20,8 +22,8 @@ class ProductosController extends Controller
     public function index()
     {
         $producto= Producto::orderBy('id','ASC')->paginate(5);
-        //dd($producto);
-        return view('productos.index')->with('producto',$producto);
+        return view('productos.index')
+            ->with('producto',$producto);
     }
 
     /**
@@ -32,7 +34,8 @@ class ProductosController extends Controller
     public function create()
     {
         $categorias = Categoria::all();
-        return view(('productos.create'))->with('categorias',$categorias);
+        return view(('productos.create'))
+            ->with('categorias',$categorias);
     }
 
     /**
@@ -48,22 +51,16 @@ class ProductosController extends Controller
             $producto->descripcion= $request->descripcion;
             $producto->precio_venta= $request->precio_venta;
             $producto->stock= $request->stock;
+            $file=$request->file('imagen');
+            $name = 'producto_'.time().'.'. $file->getClientOriginalExtension();
+            $path =  public_path().'/imagenes/';
+            $file->move($path,$name);
+            $producto->imagen = $path.$name;
             $producto->id_categoria= $request->id_categoria;
         $producto->save();
 
         Flash::success("Producto registrado de forma exitosa");
         return redirect()->route('productos.index');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-
     }
 
     /**
@@ -76,7 +73,9 @@ class ProductosController extends Controller
     {
         $categorias= Categoria::all();
         $productos= Producto::find($id);
-        return view('productos.edit')-> with('producto',$productos)->with('categorias',$categorias);
+        return view('productos.edit')
+            -> with('producto',$productos)
+            ->with('categorias',$categorias);
     }
 
     /**
@@ -89,11 +88,16 @@ class ProductosController extends Controller
     public function update(Request $request, $id)
     {
         $producto= Producto::find($id);
-            $producto->nombre = $request->nombre;
-            $producto->descripcion= $request->descripcion;
-            $producto->precio_venta= $request->precio_venta;
-            $producto->stock= $request->stock;
-            $producto->id_categoria= $request->id_categoria;
+        $producto->nombre = $request->nombre;
+        $producto->descripcion= $request->descripcion;
+        $producto->precio_venta= $request->precio_venta;
+        $producto->stock= $request->stock;
+        $file=$request->file('imagen');
+        $name = 'producto_'.time().'.'. $file->getClientOriginalExtension();
+        $path =  public_path().'/imagenes/';
+        $file->move($path,$name);
+        $producto->imagen = $path.$name;
+        $producto->id_categoria= $request->id_categoria;
         $producto->save();
 
         Flash::success("Producto editado de forma exitosa");
@@ -127,5 +131,16 @@ class ProductosController extends Controller
         $data = array();
         $data['productos'] = $productos;
         return JsonResponse::create($data);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+
     }
 }
