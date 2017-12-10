@@ -114,6 +114,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('clientecupones.index') }}">Cliente-Cupon</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('detalleordenes.index') }}">Ventas</a>
+                    </li>
                 </ul>
             </nav>
             @endif

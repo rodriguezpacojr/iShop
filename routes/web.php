@@ -22,6 +22,7 @@ Route::group(['prefix'=>'admin','middleware'=>'auth'],function () {
     Route::resource('productos','ProductosController');
     Route::resource('cupones','CuponesController');
     Route::resource('clientecupones','ClienteCuponesController');
+    Route::resource('detalleordenes','DetalleOrdenesController');
 
     Route::get('categorias/{id}/destroy', ['uses' => "CategoriasController@destroy", 'as' => 'categorias.destroy']);
     Route::get('proveedores/{id}/destroy', ['uses' => "ProveedoresController@destroy", 'as' => 'proveedores.destroy']);

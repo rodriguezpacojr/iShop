@@ -21,7 +21,7 @@ class ProductosController extends Controller
      */
     public function index()
     {
-        $producto= Producto::orderBy('id','ASC')->paginate(5);
+        $producto= Producto::orderBy('id','ASC')->paginate(10);
         return view('productos.index')
             ->with('producto',$producto);
     }
