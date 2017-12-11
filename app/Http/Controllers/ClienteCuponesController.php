@@ -149,9 +149,13 @@ class ClienteCuponesController extends Controller
      * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function delete_clientecupon($id_ct, $id_cu)
+    public function delete_clientecupon($id_ct, $clave)
     {
         $response = new \stdClass();
+
+        $id_cu = DB::table('cupon')
+            ->where('cupon.clave', '=', $clave)
+            ->value('id');
 
         DB::table('clientecupon')
             ->where('id_cupon', '=', $id_cu)

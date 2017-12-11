@@ -114,10 +114,8 @@ class MetodosController extends Controller
      */
     public function servicio_index()
     {
-        $metodos = DB::table('categoria')->orderBy('id', 'asc')->get();
-        //dd($categorias);
-        $data=array();
-        $data['metodos'] = $metodos ;
-        return JsonResponse::create($data);
+        $metodos = DB::table('metodo')->orderBy('id', 'asc')->get();
+
+        return JsonResponse::create($metodos);
     }
 }

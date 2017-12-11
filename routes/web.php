@@ -35,8 +35,11 @@ Route::group(['prefix'=>'admin','middleware'=>'auth'],function () {
 
     Route::get('productoscliente', 'GraficasController@productos_cliente');
 
-    Route::get('ventascliente', ['uses'=>'GraficasController@ventas_cliente', 'as' => 'graficas.ventascliente']);
     Route::get('totales', ['uses'=>'GraficasController@contador', 'as' => 'graficas.contador']);
+    Route::get('ventasmes',['uses'=>'GraficasController@ventas_mensuales', 'as' => 'graficas.ventasmes']);
+    Route::get('ventasanio',['uses'=>'GraficasController@ventas_anuales', 'as' => 'graficas.ventasanio']);
+    Route::get('productos_mes', ['uses'=>'GraficasController@productos_mes', 'as' => 'graficas.productosmes']);
+    Route::get('ventascliente', ['uses'=>'GraficasController@ventas_cliente', 'as' => 'graficas.ventascliente']);
 });
 
 
@@ -56,6 +59,7 @@ Route::prefix('api')->group(function ()
     Route::get('/ciudad/estado/{id}', 'CiudadesController@show');
     Route::get('/pais', 'PaisesController@servicio_index');
     Route::put('/stock/{id}', 'ProductosController@update_stock');
+    Route::post('/venta/insert', 'DetalleOrdenesController@api_insert');
 
 
     Route::get('categorias', 'CategoriasController@servicio_index');
@@ -64,10 +68,10 @@ Route::prefix('api')->group(function ()
     Route::get('producto', 'ProductosController@servicio_index');
     Route::get('cupon', 'CuponesController@servicio_index');
     Route::get('clientecupon', 'ClienteCuponesController@servicio_index');
-    Route::get('detalleordenes', 'DetalleOrdenesController@servicio_index');
+    Route::get('detalleordenes/{id}', 'DetalleOrdenesController@servicio_index');
+    Route::get('pago', 'MetodosController@servicio_index');
 
-
-    Route::get('borraclientecupon/{id_ct}/{id_cu}', 'ClienteCuponesController@delete_clientecupon');
+    Route::get('borraclientecupon/{id_ct}/{clave}', 'ClienteCuponesController@delete_clientecupon');
     Route::post('clientecupon/insert', 'ClienteCuponesController@api_insert');
     Route::get('categoria_insert', 'CategoriasController@store');
 });

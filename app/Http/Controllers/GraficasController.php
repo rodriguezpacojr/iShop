@@ -34,6 +34,53 @@ class GraficasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function ventas_mensuales()
+    {
+        $do = DB::table('view_ventas_mes')
+            ->select('view_ventas_mes.*')
+            ->where('anio','=','2014')
+            ->get();
+        $data = array();
+        $data['ventasmes'] = $do;
+        return view('graficas.ventas_mensuales')->with($data);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function ventas_anuales()
+    {
+        $do = DB::table('view_ventas_anio')
+            ->select('view_ventas_anio.*')
+            ->get();
+        $data = array();
+        $data['ventasanio'] = $do;
+        return view('graficas.ventas_anuales')->with($data);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function productos_mes()
+    {
+        $do = DB::table('view_productos_mes')
+            ->select('view_productos_mes.*')
+            ->where('anio','=','2017')
+            ->get();
+        $data = array();
+        $data['productomes'] = $do;
+        return view('graficas.productosmes')->with($data);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function contador()
     {
         $data = array();
@@ -82,39 +129,5 @@ class GraficasController extends Controller
         $data = array();
         $data['productocliente'] = $do;
         dd($data);
-    }
-
-
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function servicio_index()
-    {
-        $cc = DB::table('clientecupon')->orderBy('clientecupon.id', 'asc')
-            ->join('users', 'users.id', '=', 'clientecupon.id_cliente')
-            ->join('cupon', 'cupon.id', '=', 'clientecupon.id_cupon')
-            ->select('clientecupon.*', 'users.usuario as usuario', 'cupon.clave as cupon')->get();
-        $data = array();
-        $data['clientecupon'] = $cc;
-        return JsonResponse::create($data);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //Regresa los cupones para un cliente
-        $cupon = DB::table('clientecupon')
-            ->join('cupon', 'clientecupon.id_cupon', '=', 'cupon.id')
-            ->select('cupon.*')
-            ->where('clientecupon.id_cliente', '=', $id)->get();
-        return JsonResponse::create($cupon);
     }
 }

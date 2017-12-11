@@ -4,7 +4,7 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="panel-heading"><h3 class="panel-title text-center"><i class="fa fa-hand-peace-o" aria-hidden="true"></i>
-                Historial de productos comprados por cliente</h3></div>
+                Productos Vendidos</h3></div>
         <div class="panel-body">
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
@@ -15,8 +15,8 @@
             {
                 var data = google.visualization.arrayToDataTable([
                     ['Task', 'Hours per Day'],
-                        @foreach($ventascliente as $vc)
-                            ['{{ $vc-> usuario }}', {{ $vc-> total }}],
+                        @foreach($productomes as $pm)
+                            ['{{ $pm-> producto }}', {{ $pm-> total }}],
                         @endforeach
                 ]);
 

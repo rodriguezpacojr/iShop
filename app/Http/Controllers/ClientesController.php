@@ -352,7 +352,7 @@ class ClientesController extends Controller
             ->insert(
                 ['usuario' => $request->usuario,
                     'email' => $request->email,
-                    'password' => md5($request->password),
+                    'password' => bcrypt($request->password),
                     'nombres' => $request->nombres,
                     'apellidos' => $request->apellidos,
                     'rfc' => $request->rfc,
@@ -362,7 +362,12 @@ class ClientesController extends Controller
                     'cp' => $request->cp,
                     'id_ciudad' => $request->id_ciudad]
             );
+        $id_c = DB::table('users')
+            ->select(DB::raw('id'))
+            ->where('usuario','=',$request->usuario)
+            ->first();
 
+        $response->id=$id_c;
         $response->success = true;
         return JsonResponse::create($response);
     }
