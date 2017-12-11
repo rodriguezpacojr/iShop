@@ -39,10 +39,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::prefix('api')->group(function ()
 {
     Route::get('/cupon/{id}', 'ClienteCuponesController@show');
-    //Route::post('/valcliente', 'ClientesController@val');
+    Route::post('/valcliente', 'ClientesController@val');
     Route::get('/perfil/{id}', 'ClientesController@perfil');
-    //Route::post('/users/insert', 'ClientesController@insert');
-    //Route::put('/users/update/{id}', 'ClientesController@update');
+    Route::post('/users/insert', 'ClientesController@api_insert');
+    Route::put('/users/update/{id}', 'ClientesController@api_update');
     Route::get('/estado', 'EstadosController@servicio_index');
     Route::get('/estado/pais/{id}', 'EstadosController@show');
     Route::get('/ciudad', 'CiudadesController@servicio_index');
@@ -55,4 +55,9 @@ Route::prefix('api')->group(function ()
     Route::get('producto', 'ProductosController@servicio_index');
     Route::get('cupon', 'CuponesController@servicio_index');
     Route::get('clientecupon', 'ClienteCuponesController@servicio_index');
+    Route::get('categoria_insert', 'CategoriasController@store');
+
+    Route::get('ventascliente', 'GraficasController@ventas_cliente');
+    Route::get('productoscliente', 'GraficasController@productos_cliente');
+    Route::get('totales', 'GraficasController@contador');
 });

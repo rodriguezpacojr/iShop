@@ -24,10 +24,11 @@ class ClientesRequest extends FormRequest
     public function rules()
     {
         return [
-            'email'     => 'min:6|max:50|required|unique:cliente',
+            'email'     => 'min:6|max:50|required|unique:users',
             'password' => 'min:6|max:20|required',
             'rfc'        => 'min:13|max:13',
-            'telefono'   => 'min:7|max:10'
+            'telefono'   => 'min:7|max:10',
+            'usuario'     => 'min:6|max:50|required|unique:users',
         ];
     }
 }

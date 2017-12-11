@@ -58,11 +58,43 @@ class ClientesController extends Controller
             $cliente->compania = $request->compania;
             $cliente->cp= $request->cp;
             $cliente->id_ciudad = $request->id_ciudad;
-            //dd($cliente);
         $cliente->save();
 
         Flash::success("Cliente registrado de forma exitosa");
         return redirect()->route('clientes.index');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function api_insert(Request $request)
+    {
+        //$response = new \stdClass();
+
+        $cliente= new User($request->all());
+        $cliente->usuario = $request->usuario;
+        $cliente->email = $request->email;
+        $cliente->password= bcrypt($request->password);
+        $cliente->rol = $request->rol;
+        $cliente->nombres = $request->nombres;
+        $cliente->apellidos = $request->apellidos;
+        $cliente->rfc = $request->rfc;
+        $cliente->telefono = $request->telefono;
+        $cliente->direccion= $request->direccion;
+        $cliente->compania = $request->compania;
+        $cliente->cp= $request->cp;
+        $cliente->id_ciudad = $request->id_ciudad;
+        //dd($cliente);
+        $cliente->save();
+
+        Flash::success("Cliente registrado de forma exitosa");
+        return redirect()->route('clientes.index');
+
+        //$response = $cliente;
+        //return JsonResponse::create($response);
     }
 
     /**
@@ -145,7 +177,7 @@ class ClientesController extends Controller
      */
     public function val(Request $request)
     {
-        dd('Hola');
+        dd('hola');
         $response = new \stdClass();
         $cliente = DB::table('users')->where('usuario', '=', $request->usuario)->first();
         if(!$cliente)
@@ -177,17 +209,113 @@ class ClientesController extends Controller
      */
     public function perfil($id)
     {
+        $response = new \stdClass();
         $cliente = DB::table('users')
             ->join('ciudad', 'ciudad.id', '=', 'users.id_ciudad')
             ->join('estado', 'estado.id', '=', 'ciudad.id_estado')
             ->select('users.usuario','users.nombres','users.apellidos',
                 'users.email','users.compania','users.rfc',
                 'users.direccion','users.telefono','users.cp',
-                'ciudad.nombre as ciudad','ciudad.id',
-                'estado.nombre as estado','estado.id')
+                'ciudad.nombre as ciudad','ciudad.id as id_ciudad',
+                'estado.nombre as estado','estado.id as id_estado')
             ->where('users.id', '=', $id)->first();
-        $data = array();
-        $data['perfil'] = $cliente;
-        return JsonResponse::create($data);
+        $response = $cliente;
+        return JsonResponse::create($response);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function api_update(Request $request, $id)
+    {
+        //
+        $response = new \stdClass();
+
+        if (!$request->has('usuario')) {
+            $response->success =false;
+            $response->mensaje = 'no se recibio usuario';
+            return JsonResponse::create($response);
+        }
+        if (!$request->has('password')) {
+            $response->success =false;
+            $response->mensaje = 'no se recibio contrasena';
+            return JsonResponse::create($response);
+        }
+        if (!$request->has('nombres')) {
+            $response->success =false;
+            $response->mensaje = 'no se recibio nombres';
+            return JsonResponse::create($response);
+        }
+        if (!$request->has('apellidos')) {
+            $response->success =false;
+            $response->mensaje = 'no se recibio apellidos';
+            return JsonResponse::create($response);
+        }
+        if (!$request->has('email')) {
+            $response->success =false;
+            $response->mensaje = 'no se recibio correo';
+            return JsonResponse::create($response);
+        }
+        if (!$request->has('compania')) {
+            $response->success =false;
+            $response->mensaje = 'no se recibio compania';
+            return JsonResponse::create($response);
+        }
+        if (!$request->has('rfc')) {
+            $response->success =false;
+            $response->mensaje = 'no se recibio rfc';
+            return JsonResponse::create($response);
+        }
+        if (!$request->has('telefono')) {
+            $response->success =false;
+            $response->mensaje = 'no se recibio telefono';
+            return JsonResponse::create($response);
+        }
+        if (!$request->has('direccion')) {
+            $response->success =false;
+            $response->mensaje = 'no se recibio direccion';
+            return JsonResponse::create($response);
+        }
+        if (!$request->has('cp')) {
+            $response->success =false;
+            $response->mensaje = 'no se recibio codigo_postal';
+            return JsonResponse::create($response);
+        }
+        if (!$request->has('id_ciudad')) {
+            $response->success =false;
+            $response->mensaje = 'no se recibio ciudad';
+            return JsonResponse::create($response);
+        }
+
+        $cliente = DB::table('users')->where('id', '=', $id)->first();
+        if(!$cliente)
+        {
+            $response->success =false;
+            $response->mensaje = 'no existe el elemento con el id = '.$id;
+            return JsonResponse::create($response);
+        }
+
+        DB::table('cliente')
+            ->where('id', '=', $id)
+            ->update(
+                ['usuario' => $request->usuario,
+                'password' => $request->password,
+                'nombres' => $request->nombres,
+                'apellidos' => $request->apellidos,
+                'email' => $request->email,
+                'compania' => $request->compania,
+                'rfc' => $request->rfc,
+                'telefono' => $request->telefono,
+                'direccion' => $request->direccion,
+                'cp' => $request->cp,
+                'id_ciudad' => $request->id_ciudad]
+            );
+
+        $response->success = true;
+        return JsonResponse::create($response);
     }
 }

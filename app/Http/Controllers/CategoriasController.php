@@ -39,8 +39,9 @@ class CategoriasController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoriasRequest $request)
+    public function store(Request $request)
     {
+        dd('Hola');
         $categoria= new Categoria($request->all());
         $categoria->nombre = $request->nombre;
         $categoria->save();

@@ -21,7 +21,7 @@ class EstadosController extends Controller
             ->join('pais', 'pais.id', '=', 'estado.id_pais')
             ->select('estado.*', 'pais.nombre as pais')->get();
         $data = array();
-        $data['estado'] = $est;
+        $data = $est;
         return JsonResponse::create($data);
     }
 
