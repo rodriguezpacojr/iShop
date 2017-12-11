@@ -13,7 +13,7 @@
 
     <link rel="icon" href="favicon.ico">
 
-    <title>Dashboard Template for Bootstrap</title>
+    <title>iShop </title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
@@ -25,7 +25,7 @@
 <body>
 <header>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">Dashboard</a>
+        <a class="navbar-brand" href="#">iShop</a>
         <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -33,10 +33,18 @@
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{{ route('graficas.contador') }}">Estadisticas <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Productos</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Ventas
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Mensuales</a>
+                        <a class="dropdown-item" href="#">Anuales</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Profile</a>
@@ -113,6 +121,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('clientecupones.index') }}">Cliente-Cupon</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('metodos.index') }}">Metodos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('detalleordenes.index') }}">Ventas</a>

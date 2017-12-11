@@ -46,6 +46,7 @@ class ProductosController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request);
         $producto= new Producto($request->all());
             $producto->nombre = $request->nombre;
             $producto->descripcion= $request->descripcion;
@@ -55,7 +56,7 @@ class ProductosController extends Controller
             $name = 'producto_'.time().'.'. $file->getClientOriginalExtension();
             $path =  public_path().'/imagenes/';
             $file->move($path,$name);
-            $producto->imagen = $path.$name;
+            $producto->imagen = $name;
             $producto->id_categoria= $request->id_categoria;
         $producto->save();
 
@@ -96,7 +97,7 @@ class ProductosController extends Controller
         $name = 'producto_'.time().'.'. $file->getClientOriginalExtension();
         $path =  public_path().'/imagenes/';
         $file->move($path,$name);
-        $producto->imagen = $path.$name;
+        $producto->imagen = $name;
         $producto->id_categoria= $request->id_categoria;
         $producto->save();
 
@@ -128,19 +129,37 @@ class ProductosController extends Controller
         $productos = DB::table('producto')->orderBy('producto.id', 'asc')
             ->join('categoria', 'categoria.id', '=', 'producto.id_categoria')
             ->select('producto.*', 'categoria.nombre as categoria')->get();
-        $data = array();
-        $data['productos'] = $productos;
-        return JsonResponse::create($data);
+        return JsonResponse::create($productos);
     }
 
     /**
-     * Display the specified resource.
+     * Update the specified resource in storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function update_stock(Request $request, $id)
     {
+        //
+        $response = new \stdClass();
 
+        $stock = DB::table('producto')
+            ->where('producto.id', '=', $id)
+            ->value('stock');
+        //dd($request->stock);
+        if($request->opcion == 1)
+            $nuevo_stock = $stock + $request->stock ;
+        else
+            $nuevo_stock = $stock - $request->stock ;
+
+        DB::table('producto')
+                ->where('id', '=', $id)
+                ->update(
+                    ['stock' => $nuevo_stock]
+                );
+
+        $response->success = true;
+        return JsonResponse::create($response);
     }
 }

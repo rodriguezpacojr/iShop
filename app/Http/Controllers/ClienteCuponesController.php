@@ -141,4 +141,65 @@ class ClienteCuponesController extends Controller
             ->where('clientecupon.id_cliente', '=', $id)->get();
         return JsonResponse::create($cupon);
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete_clientecupon($id_ct, $id_cu)
+    {
+        $response = new \stdClass();
+
+        DB::table('clientecupon')
+            ->where('id_cupon', '=', $id_cu)
+            ->where('id_cliente', '=', $id_ct)
+            ->delete();
+
+        $response->success = true;
+        return JsonResponse::create($response);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function api_insert(Request $request)
+    {
+        $response = new \stdClass();
+
+        if (!$request->has('clave')) {
+            $response->success =false;
+            $response->mensaje = 'no se recibio clave';
+            return JsonResponse::create($response);
+        }
+        if (!$request->has('id_cliente')) {
+            $response->success =false;
+            $response->mensaje = 'no se recibio usuario';
+            return JsonResponse::create($response);
+        }
+        $clav = $request->clave;
+
+        $id_cu = DB::table('cupon')
+            ->where('cupon.clave', '=', $clav)
+            ->value('id');
+
+        if (!$id_cu) {
+            $response->success =false;
+            $response->mensaje = 'Cupon no existe';
+            return JsonResponse::create($response);
+        }
+        DB::table('clientecupon')
+            ->insert(
+                [   'id_cliente' => $request->id_cliente,
+                    'id_cupon' => $id_cu]
+            );
+
+        $response->success = true;
+        return JsonResponse::create($response);
+    }
 }

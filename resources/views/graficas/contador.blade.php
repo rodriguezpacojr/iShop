@@ -13,6 +13,7 @@
                 var data = google.visualization.arrayToDataTable([
                     ['Label', 'Value'],
                     ['Usuarios', {{ $usuarios[0]-> total }}],
+                    ['Usuarios', {{ $usuarios[0]-> total }}],
                     ['Ordenes', {{ $ordenes[0]-> total }}],
                     ['Productos', {{ $productos[0]-> total }}],
                     ['Proveedores', {{ $proveedores[0]-> total }}],
@@ -20,6 +21,7 @@
                 ]);
                 var options = {
                     //width: 800, height: 120,
+                    width: 1400, height: 400,
                     minorTicks: 2
                 };
 

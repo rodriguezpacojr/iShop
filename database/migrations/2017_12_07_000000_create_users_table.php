@@ -28,7 +28,7 @@ class CreateUsersTable extends Migration
             $table->string('cp');
             $table->integer('id_ciudad');
             $table->foreign('id_ciudad')->references('id')->on('ciudad');
-            $table->rememberToken();
+            //$table->rememberToken();
             $table->timestamps();
         });
     }

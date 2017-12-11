@@ -23,6 +23,7 @@ Route::group(['prefix'=>'admin','middleware'=>'auth'],function () {
     Route::resource('cupones','CuponesController');
     Route::resource('clientecupones','ClienteCuponesController');
     Route::resource('detalleordenes','DetalleOrdenesController');
+    Route::resource('metodos','MetodosController');
 
     Route::get('categorias/{id}/destroy', ['uses' => "CategoriasController@destroy", 'as' => 'categorias.destroy']);
     Route::get('proveedores/{id}/destroy', ['uses' => "ProveedoresController@destroy", 'as' => 'proveedores.destroy']);
@@ -30,6 +31,12 @@ Route::group(['prefix'=>'admin','middleware'=>'auth'],function () {
     Route::get('productos/{id}/destroy', ['uses' => "ProductosController@destroy", 'as' => 'productos.destroy']);
     Route::get('cupones/{id}/destroy', ['uses' => "CuponesController@destroy", 'as' => 'cupones.destroy']);
     Route::get('clientecupones/{id}/destroy', ['uses' => "ClienteCuponesController@destroy", 'as' => 'clientecupones.destroy']);
+    Route::get('metodos/{id}/destroy', ['uses' => "MetodosController@destroy", 'as' => 'metodos.destroy']);
+
+    Route::get('productoscliente', 'GraficasController@productos_cliente');
+
+    Route::get('ventascliente', ['uses'=>'GraficasController@ventas_cliente', 'as' => 'graficas.ventascliente']);
+    Route::get('totales', ['uses'=>'GraficasController@contador', 'as' => 'graficas.contador']);
 });
 
 
@@ -48,6 +55,8 @@ Route::prefix('api')->group(function ()
     Route::get('/ciudad', 'CiudadesController@servicio_index');
     Route::get('/ciudad/estado/{id}', 'CiudadesController@show');
     Route::get('/pais', 'PaisesController@servicio_index');
+    Route::put('/stock/{id}', 'ProductosController@update_stock');
+
 
     Route::get('categorias', 'CategoriasController@servicio_index');
     Route::get('proveedor', 'ProveedoresController@servicio_index');
@@ -55,9 +64,10 @@ Route::prefix('api')->group(function ()
     Route::get('producto', 'ProductosController@servicio_index');
     Route::get('cupon', 'CuponesController@servicio_index');
     Route::get('clientecupon', 'ClienteCuponesController@servicio_index');
-    Route::get('categoria_insert', 'CategoriasController@store');
+    Route::get('detalleordenes', 'DetalleOrdenesController@servicio_index');
 
-    Route::get('ventascliente', 'GraficasController@ventas_cliente');
-    Route::get('productoscliente', 'GraficasController@productos_cliente');
-    Route::get('totales', 'GraficasController@contador');
+
+    Route::get('borraclientecupon/{id_ct}/{id_cu}', 'ClienteCuponesController@delete_clientecupon');
+    Route::post('clientecupon/insert', 'ClienteCuponesController@api_insert');
+    Route::get('categoria_insert', 'CategoriasController@store');
 });

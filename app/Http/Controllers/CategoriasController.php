@@ -117,4 +117,31 @@ class CategoriasController extends Controller
         $data['categorias'] = $categorias;
         return JsonResponse::create($data);
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function api_insert(Request $request)
+    {
+        //dd('entra al metodo');
+        $response = new \stdClass();
+
+        if (!$request->has('nombre')) {
+            $response->success =false;
+            $response->mensaje = 'no se recibio nombre';
+            return JsonResponse::create($response);
+        }
+
+        DB::table('categoria')
+            ->insert(
+                ['nombre' => $request->nombre]
+            );
+
+        $response->success = true;
+        return JsonResponse::create($response);
+
+    }
 }

@@ -75,10 +75,11 @@ class DetalleOrdenesController extends Controller
      */
     public function servicio_index()
     {
-        $cc = DB::table('clientecupon')->orderBy('clientecupon.id', 'asc')
-            ->join('users', 'users.id', '=', 'clientecupon.id_cliente')
-            ->join('cupon', 'cupon.id', '=', 'clientecupon.id_cupon')
-            ->select('clientecupon.*', 'users.usuario as usuario', 'cupon.clave as cupon')->get();
+        $cc = DB::table('detalleorden')->orderBy('detalleorden.id', 'asc')
+            ->join('orden', 'orden.id', '=', 'detalleorden.id_orden')
+            ->join('users', 'users.id', '=', 'detalleorden.id_cliente')
+            ->join('producto', 'producto.id', '=', 'detalleorden.id_producto')
+            ->select('orden.id as orden','users.usuario as usuario', 'producto.nombre as producto', 'cantidad')->get();
         $data = array();
         $data['clientecupon'] = $cc;
         return JsonResponse::create($data);
